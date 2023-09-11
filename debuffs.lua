@@ -175,9 +175,9 @@ local function HandlePacket(e)
     if e.blocked then return end
 
     if e.id == 0x028 then
-        HandleAction(ParseActionPacket(e.data_modified))
+        HandleAction(ParseActionPacket(e.data))
     elseif e.id == 0x029 then
-        HandleActionMessage(e.data_modified)
+        HandleActionMessage(e.data)
     elseif e.id == 0x000A then -- Zone Enter
         debuffs.debuffs = {}
     end
