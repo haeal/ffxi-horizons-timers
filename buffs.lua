@@ -15,7 +15,8 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with Timers.  If not, see <https://www.gnu.org/licenses/>.
---]] require('timer_group')
+--]] 
+require('timer_group')
 require('action_packets')
 require('timer_common')
 require('ashita4data')
@@ -599,10 +600,13 @@ local function RemoveBuff(character, target_effect_id)
     -- If we found a copy of the effect to remove..
     if target_effect_id and effect_copy_index and char_buffs.effects[target_effect_id] and
         char_buffs.effects[target_effect_id][effect_copy_index] then
-        -- Set it's duraction to -1 and oiginal time to now...?
-        char_buffs.effects[target_effect_id][effect_copy_index].duration = -1
-        char_buffs.effects[target_effect_id][effect_copy_index].o_time = ashita.time.clock()['ms']
-        return true
+        --print('Removing buff: ' + tostring(target_effect_id) + ' with an age of ' + char_buffs.effects[target_effect_id][effect_copy_index].o_time + ' compared to time of now: ' + ashita.time.clock()['ms'])
+        if(ashita.time.clock()['ms'] - char_buffs.effects[target_effect_id][effect_copy_index].o_time > 1000) then
+            -- Set it's duraction to -1 and oiginal time to now...?
+            char_buffs.effects[target_effect_id][effect_copy_index].duration = -1
+            char_buffs.effects[target_effect_id][effect_copy_index].o_time = ashita.time.clock()['ms']
+            return true
+        end
     end
 
     return false
@@ -730,7 +734,7 @@ local function ApplyBuff(target, effect, spell, actor, type)
     else
         local t = GetEntity(GetTargetIndex(actor))
         name = (t and t.Name) or nil
-        print(('Timers: Unknown action [%d] with type [%d] used by %s'):fmt(spell, type, name or 'Unknown'))
+        -- print(('Timers: Unknown action [%d] with type [%d] used by %s'):fmt(spell, type, name or 'Unknown'))
     end
 
     if not duration then
