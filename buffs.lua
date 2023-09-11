@@ -983,9 +983,9 @@ local function HandlePacket(e)
 
     if e.id == 0x028 then
         -- Obtain the player entitiy..
-        HandleAction(ParseActionPacket(e.data_modified))
+        HandleAction(ParseActionPacket(e.data))
     elseif e.id == 0x029 then
-        HandleActionMessage(e.data_modified)
+        HandleActionMessage(e.data)
     elseif e.id == 0x37 then -- Called any time current player's state is updated.
         HandleBuffUpdate(e)
     elseif e.id == 0x076 then -- Called whenever a party member's buff/debuff state is updated.
